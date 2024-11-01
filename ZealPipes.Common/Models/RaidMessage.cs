@@ -12,10 +12,38 @@ namespace ZealPipes.Common.Models
             public string Class { get; set; }
 
             [JsonPropertyName("group")]
-            public string Group { get; set; }
+            private string Group_Str { get; set; }
+            public int Group 
+            {
+                get 
+                {
+                    if (int.TryParse(Group_Str, out int group))
+                    {
+                        return group;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                } 
+            }
 
             [JsonPropertyName("level")]
-            public string Level { get; set; }
+            private string Level_Str { get; set; }
+            public int Level
+            {
+                get
+                {
+                    if (int.TryParse(Level_Str, out int level))
+                    {
+                        return level;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
 
             [JsonPropertyName("name")]
             public string Name { get; set; }
@@ -34,7 +62,7 @@ namespace ZealPipes.Common.Models
         {
             Type = PipeMessageType.Raid;
             Character = character;
-            Data = JsonSerializer.Deserialize<RaidData[]>(pipeMessageData).Where(x => !string.IsNullOrEmpty(x.Level)).ToArray();
+            Data = JsonSerializer.Deserialize<RaidData[]>(pipeMessageData).Where(x => !string.IsNullOrEmpty(x.Name)).ToArray();
         }
 
         public PipeMessageType Type { get; set; }
